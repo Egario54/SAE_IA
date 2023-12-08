@@ -1,0 +1,15 @@
+public class LancerPerceptron {
+    public static void main(String[] args) {
+        int[] nbNeurones = {2, 3, 1};
+        double learningRate = 0.1;
+        TransferFunction tf = new Sigmoid(); || new Hyperbolique();
+        MLP mlp = new MLP(nbNeurones, learningRate, tf);
+
+        double[] inputs = {0, 0.5, 1};
+        double[] outputs = mlp.execute(inputs);
+        sout("Sortie du réseau : ");
+        for (int i = 0; i < outputs.length; i++) {
+            System.out.println(" - " + outputs[i]);
+        }
+    }
+}
