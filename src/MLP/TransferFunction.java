@@ -1,4 +1,6 @@
-interface TransferFunction {
+package MLP;
+
+public interface TransferFunction {
     /**
      * Function de transfert
      *

@@ -1,12 +1,16 @@
 package fonction;
 
-public class Sigmoide implements Fonction {
+import MLP.TransferFunction;
 
-  public double fonction(double x) {
-    return 1.0 / (1.0 + Math.exp(-x));
+public class Sigmoide implements TransferFunction {
+
+  @Override
+  public double evaluate(double value) {
+    return 1.0 / (1.0 + Math.exp(-value));
   }
 
-  public double derivee(double x) {
-    return fonction(x) - Math.pow(fonction(x), 2);
+  @Override
+  public double evaluateDer(double value) {
+    return evaluate(value) - Math.pow(evaluate(value), 2);
   }
 }

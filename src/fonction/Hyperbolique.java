@@ -1,15 +1,17 @@
 package fonction;
 
-public class Hyperbolique  implements Fonction{
+import MLP.TransferFunction;
+
+public class Hyperbolique  implements TransferFunction {
 
 
   @Override
-  public double fonction(double x) {
+  public double evaluate(double x) {
     return Math.tanh(x);
   }
 
   @Override
-  public double derivee(double x) {
-    return 1 - Math.pow(fonction(x), 2);
+  public double evaluateDer(double x) {
+    return 1 - Math.pow(evaluate(x), 2);
   }
 }
