@@ -7,7 +7,7 @@ public class LancerPerceptron {
 
         double[] inputs = {0, 0.5, 1};
         double[] outputs = mlp.execute(inputs);
-        sout("Sortie du réseau : ");
+        System.out.println("Sortie du réseau : ");
         for (int i = 0; i < outputs.length; i++) {
             System.out.println(" - " + outputs[i]);
         }
