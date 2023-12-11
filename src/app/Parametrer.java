@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class Parametrer {
 
+  private String learning;
+
   private int[] nbNeurones;
   private double tauxApprentissage;
 
@@ -15,13 +17,22 @@ public class Parametrer {
   public void parametrer() {
     String in;
     System.out.println("Parametrage du MLP");
-    System.out.println("Nombre de couches : (default 3)");
+
+    System.out.println("Nombre de couches : (disponible : etouxor (default), mnist)");
     Scanner sc = new Scanner(System.in);
+    String learning = "etouxor";
+    in = sc.nextLine();
+    if (!in.equals("")) {
+      learning = in;
+    }
+
+    System.out.println("Nombre de couches : (default 3)");
     String nbCouches = "3";
     in = sc.nextLine();
     if (!in.equals("")) {
       nbCouches = in;
     }
+
     nbNeurones = new int[Integer.parseInt(nbCouches)];
     for (int i = 0; i < nbNeurones.length; i++) {
       System.out.println("Nombre de neurones dans la couche " + i + " : (default 2 (1 pour la couche de sortie))");
@@ -36,6 +47,7 @@ public class Parametrer {
         }
       }
     }
+
     System.out.println("Taux d'apprentissage : (default 0.3)");
     in = sc.nextLine();
     if (!in.equals("")) {
@@ -43,6 +55,7 @@ public class Parametrer {
     } else {
       tauxApprentissage = 0.3;
     }
+
     System.out.println("Fonction d'activation : ");
     System.out.println("1 : Sigmoide");
     System.out.println("2 : Tanh");
@@ -52,12 +65,17 @@ public class Parametrer {
       case "2" -> fonctionActivation = new fonction.Hyperbolique();
       default -> System.out.println("Erreur");
     }
+
   }
 
   public void parametrerDefaut() {
     nbNeurones = new int[]{2, 2, 1};
     tauxApprentissage = 0.3;
     fonctionActivation = new fonction.Sigmoide();
+  }
+
+  public String getLearning() {
+    return learning;
   }
 
   public int[] getNbNeurones() {
