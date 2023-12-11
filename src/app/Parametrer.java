@@ -72,6 +72,7 @@ public class Parametrer {
     nbNeurones = new int[]{2, 2, 1};
     tauxApprentissage = 0.3;
     fonctionActivation = new fonction.Sigmoide();
+    learning = "etouxor";
   }
 
   public String getLearning() {
