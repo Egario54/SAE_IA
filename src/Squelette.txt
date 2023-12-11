@@ -1,16 +1,20 @@
 public class LancerPerceptron {
     public static void main(String[] args) {
-        int[] nbNeurones = {2, 3, 1};
-        double learningRate = 0.1;
-        TransferFunction tf = new Sigmoid(); || new Hyperbolique();
+        int[] nbNeurones = {2, 3, 1}; // Modifiable via les arguments
+        double learningRate = 0.1; // Modifiable via les arguments
+        TransferFunction tf = new Sigmoid(); || new Hyperbolique(); // Modifiable via les arguments
         MLP mlp = new MLP(nbNeurones, learningRate, tf);
 
-        double[] inputs = {0, 0.5, 1};
+        double[] inputs = {0, 0.5, 1}; // Modifiable via les arguments
+
         double[] outputs = mlp.execute(inputs);
+        double error = mlp.backpropagation(inputs, outputs);
+
         System.out.println("Sortie du réseau : ");
         for (int i = 0; i < outputs.length; i++) {
             System.out.println(" - " + outputs[i]);
         }
+        System.out.println("Erreur calculé : " + error);
     }
 }
 
@@ -31,3 +35,12 @@ pour i allant de 0 à outputs.length faire
   écrire (" - " + outputs[i])
 FPOUR
 FIN
+
+Les entrées sont les valeurs de base du réseau, les sorties sont les valeurs obtenues après l'entrainement du réseau
+ou execution du réseau.
+Nous créons ensuite un réseau de neurones qui pour chaque I de 1 à Y avec Y le nombre de couches, va créer un nombre de X neurones avec X le nombre de neurones de la couche I.
+Nous créons ensuite un tableau d'entrées qui va contenir les valeurs d'entrées du réseau.
+Nous appelons ensuite la fonction execute qui va calculer les sorties du réseau.
+Nous appelons ensuite la fonction backpropagation qui va calculer l'erreur sur les sorties du réseau.
+Nous affichons ensuite les sorties du réseau.
+
