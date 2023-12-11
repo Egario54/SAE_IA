@@ -15,16 +15,30 @@ public class MainApp {
     }
     MLP mlp = new MLP(parametrer.getNbNeurones(), parametrer.getTauxApprentissage(), parametrer.getFonctionActivation());
 
-    final double[] ET = new double[]{0,0,0,1};
-    final double[] OU = new double[]{1,0,1,1};
-    final double[] XOR = new double[]{0,1,1,0};
+    switch (parametrer.getLearning()){
+      case "":
+        final double[] ET = new double[]{0,0,0,1};
+        final double[] OU = new double[]{1,0,1,1};
+        final double[] XOR = new double[]{0,1,1,0};
 
-    double[] output = {0.5};
-    for (int i = 0; i < 10; i++) {
-      mlp.backPropagate(ET, output);
+        double[] output = {0.5};
+        for (int i = 0; i < 10; i++) {
+          mlp.backPropagate(XOR, output);
+        }
+
+        System.out.println(mlp.backPropagate(XOR,output));
+        break;
+
+      case "":
+        mnist();
+        break;
     }
 
-    System.out.println(mlp.backPropagate(ET,output));
+
+
+  }
+
+  private static void mnist() {
 
   }
 }
