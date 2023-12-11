@@ -12,5 +12,11 @@ public class MainApp {
       parametrer.parametrer();
     }
     MLP mlp = new MLP(parametrer.getNbNeurones(), parametrer.getTauxApprentissage(), parametrer.getFonctionActivation());
+
+    final double[] ET = new double[]{0,0,0,1};
+    final double[] OU = new double[]{1,0,1,1};
+    final double[] XOR = new double[]{0,1,1,0};
+
+
   }
 }
