@@ -13,3 +13,21 @@ public class LancerPerceptron {
         }
     }
 }
+
+Fonction Lancer Perceptron (fonctionTransfert : String): void
+DEBUT
+nbNeurones[] <- {2, 3, 1};
+learningRate <- 0.1
+SI fonctionTransfert == "sigmoid" alors
+    fonctionT = nouveau Sigmoid()
+sinon
+    fonctionT = nouveau Hyperbolique()
+FSI
+mlp <- nouveau MLP(nbNeurones, learningRate, tf)
+inputs[] <- {0, 0.5, 1}
+outputs[] <- mlp.execute(inputs)
+écrire ("Sortie du réseau : ")
+pour i allant de 0 à outputs.length faire
+  écrire (" - " + outputs[i])
+FPOUR
+FIN
