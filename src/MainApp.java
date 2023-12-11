@@ -30,7 +30,7 @@ public class MainApp {
         break;
 
       case "mnist":
-        mnist();
+        mnist(mlp);
         break;
     }
 
@@ -38,7 +38,7 @@ public class MainApp {
 
   }
 
-  private static void mnist() {
+  private static void mnist(MLP mlp) {
 
   }
 }
