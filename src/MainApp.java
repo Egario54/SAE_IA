@@ -1,6 +1,8 @@
 import MLP.MLP;
 import app.Parametrer;
 
+import java.util.Arrays;
+
 public class MainApp {
 
   public static void main(String[] args) {
@@ -17,6 +19,12 @@ public class MainApp {
     final double[] OU = new double[]{1,0,1,1};
     final double[] XOR = new double[]{0,1,1,0};
 
+    double[] output = {0.5};
+    for (int i = 0; i < 10; i++) {
+      mlp.backPropagate(ET, output);
+    }
+
+    System.out.println(mlp.backPropagate(ET,output));
 
   }
 }
