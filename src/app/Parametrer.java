@@ -18,6 +18,7 @@ public class Parametrer {
     String in;
     System.out.println("Parametrage du MLP");
 
+    //Apprentissage
     System.out.println("Nombre de couches : (disponible : etouxor (default), mnist)");
     Scanner sc = new Scanner(System.in);
     learning = "etouxor";
@@ -26,6 +27,7 @@ public class Parametrer {
       learning = in;
     }
 
+    //Nombre de couches
     System.out.println("Nombre de couches : (default 3)");
     String nbCouches = "3";
     in = sc.nextLine();
@@ -33,6 +35,7 @@ public class Parametrer {
       nbCouches = in;
     }
 
+    //Nombres de neurones
     nbNeurones = new int[Integer.parseInt(nbCouches)];
     for (int i = 0; i < nbNeurones.length; i++) {
       System.out.println("Nombre de neurones dans la couche " + i + " : (default 2 (1 pour la couche de sortie))");
@@ -48,6 +51,7 @@ public class Parametrer {
       }
     }
 
+    //Taux d'apprentissage
     System.out.println("Taux d'apprentissage : (default 0.3)");
     in = sc.nextLine();
     if (!in.equals("")) {
@@ -56,6 +60,7 @@ public class Parametrer {
       tauxApprentissage = 0.3;
     }
 
+    //Fonction d'apprentissage
     System.out.println("Fonction d'activation : ");
     System.out.println("1 : Sigmoide");
     System.out.println("2 : Tanh");

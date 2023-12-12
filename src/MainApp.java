@@ -3,8 +3,6 @@ import MNIST.Images;
 import MNIST.Imagette;
 import app.Parametrer;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import static MNIST.Chargement.*;
@@ -17,15 +15,14 @@ public class MainApp {
       parametrer.parametrerDefaut();
     }
     else {
-      //parametrer.parametrer();
-      parametrer.parametrerDefaut();
+      parametrer.parametrer();
     }
     MLP mlp = new MLP(parametrer.getNbNeurones(), parametrer.getTauxApprentissage(), parametrer.getFonctionActivation());
 
     //Selon le paramètre,
-    switch (/*parametrer.getLearning()*/"mnist"){
+    switch (parametrer.getLearning()){
       case "etouxor":
-        //Tbales de vérité, exemple rapide d'entraînement
+        //Tables de vérité, exemple rapide d'entraînement
         final double[] ET = new double[]{0,0,0,1};
         final double[] OU = new double[]{0,1,1,1};
         final double[] XOR = new double[]{0,1,1,0};
@@ -60,12 +57,6 @@ public class MainApp {
     //Chargement de MNIST
     Images stockage = chargerImages();
     stockage = chargerEtiquettes(stockage);
-
-    //chargement dans une hashmap
-    //HashMap<Integer, int[][]> mnist = HashMap.newHashMap(10);
-    //for (int i = 0; i < 1000; i++) {
-    //
-    //}
 
     List<Imagette> imagettes = stockage.getImagettes();
     for (int i = 0; i < 1000; i++) {
