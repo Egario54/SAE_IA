@@ -23,10 +23,18 @@ public class MainApp {
 
         double[] output = {0.5};
         for (int i = 0; i < 10; i++) {
+          mlp.backPropagate(ET, output);
+        }
+        for (int i = 0; i < 10; i++) {
+          mlp.backPropagate(OU, output);
+        }
+        for (int i = 0; i < 10; i++) {
           mlp.backPropagate(XOR, output);
         }
 
-        System.out.println(mlp.backPropagate(XOR,output));
+        System.out.println("Résultat avec ET : "+mlp.backPropagate(ET,output));
+        System.out.println("Résultat avec OU : "+mlp.backPropagate(OU,output));
+        System.out.println("Résultat avec XOR : "+mlp.backPropagate(XOR,output));
         break;
 
       case "mnist":
