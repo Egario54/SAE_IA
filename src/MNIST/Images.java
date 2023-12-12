@@ -40,16 +40,6 @@ public class Images {
         }
     }
 
-    public void question1point3(){
-        saveImage(imagettes.get(0), 0);
-        saveImage(imagettes.get(imagettes.size()-1), imagettes.size()-1);
-    }
-
-    public void question1point6(){
-        System.out.println(etiquettes.get(0).getNombre());
-        System.out.println(etiquettes.get(etiquettes.size()-1).getNombre());
-    }
-
     public List<Imagette> getImagettes() {
         return imagettes;
     }

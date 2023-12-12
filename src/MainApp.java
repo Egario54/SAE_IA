@@ -1,7 +1,13 @@
 import MLP.MLP;
+import MNIST.Images;
+import MNIST.Imagette;
 import app.Parametrer;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import static MNIST.Chargement.*;
 
 public class MainApp {
 
@@ -47,6 +53,30 @@ public class MainApp {
   }
 
   private static void mnist(MLP mlp) {
+
+    double[] output = {0.5};
+
+    Images stockage = chargerImages();
+    stockage = chargerEtiquettes(stockage);
+
+    //chargement dans une hashmap
+    //HashMap<Integer, int[][]> mnist = HashMap.newHashMap(10);
+    //for (int i = 0; i < 1000; i++) {
+    //
+    //}
+
+    List<Imagette> imagettes = stockage.getImagettes();
+    for (int i = 0; i < 1000; i++) {
+      int[][] imagette = imagettes.get(i).getEntiers();
+      double[] imagetteDouble = new double[imagette.length*imagette[0].length];
+      for (int j = 0; j < imagette.length; j++) {
+        for (int k = 0; k < imagette[j].length; k++) {
+          imagetteDouble[imagette.length*j+k] = imagette[j][k];
+        }
+      }
+      System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, output));
+    }
+
 
   }
 }

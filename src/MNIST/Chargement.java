@@ -7,11 +7,11 @@ import java.io.IOException;
 public class Chargement {
     public static Images chargerImages(){
         try {
-            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble des fichiers MNIST-20231009/train-images.idx3-ubyte"));
+            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble_fichiers_MNIST-20231009/train-images.idx3-ubyte"));
             int typeFichier = dis.readInt();
             if(typeFichier != 2051) throw new Exception("Pas bon ça");
             int nbImages = dis.readInt();
-            //if(nbImages>5000) nbImages=5000; //réduire le nombre d'images si nécessaire
+            if(nbImages>5000) nbImages=5000; //réduire le nombre d'images si nécessaire
             System.out.println("Computing " + nbImages + " images");
             int nbLignes = dis.readInt();
             int nbColonnes = dis.readInt();
@@ -42,11 +42,11 @@ public class Chargement {
     public static Images chargerEtiquettes(Images stockage){
         //début d'un bordel immense
         try {
-            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble des fichiers MNIST-20231009/train-labels.idx1-ubyte"));
+            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble_fichiers_MNIST-20231009/train-labels.idx1-ubyte"));
             int typeFichier = dis.readInt();
             if(typeFichier != 2049) throw new Exception("Pas bon ça");
             int nbEtiquettes = dis.readInt();
-            //if(nbEtiquettes>5000) nbEtiquettes=5000; //réduire le nombre d'étiquettes si nécessaire
+            if(nbEtiquettes>5000) nbEtiquettes=5000; //réduire le nombre d'étiquettes si nécessaire
             System.out.println("Computing " + nbEtiquettes + " labels");
 
             for (int i = 0; i<nbEtiquettes; i++){
