@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe servant à stocker des images et leur étiquette
+ */
 public class Images {
     private int typeFichier;
 
