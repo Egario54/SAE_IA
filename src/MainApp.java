@@ -56,8 +56,6 @@ public class MainApp {
 
   private static void mnist(MLP mlp) {
 
-    double[] output = {0.5};
-
     //Chargement de MNIST
     Images stockage = chargerImages();
     stockage = chargerEtiquettes(stockage);
@@ -73,7 +71,7 @@ public class MainApp {
         }
       }
       //entraîner
-      System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, output));
+      System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, new double[]{stockage.getEtiquettes().get(1).getNombre()}));
     }
 
 

@@ -3,11 +3,23 @@ package MNIST;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Optional;
 
 public class Chargement {
+
+    /**
+     * Méthode de convenance pour des valeurs par défauts (chargement des données d'entraînement)
+     * @return Images
+     */
     public static Images chargerImages(){
+        return chargerImages(false);
+    }
+    public static Images chargerImages(boolean loadTestFile){
         try {
-            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble_fichiers_MNIST-20231009/train-images.idx3-ubyte"));
+            String filename;
+            if(loadTestFile) filename= "Ensemble_fichiers_MNIST-20231009/t10k-images.idx3-ubyte";
+            else filename = "Ensemble_fichiers_MNIST-20231009/train-images.idx3-ubyte";
+            DataInputStream dis = new DataInputStream(new FileInputStream(filename));
             int typeFichier = dis.readInt();
             if(typeFichier != 2051) throw new Exception("Pas bon ça");
             int nbImages = dis.readInt();
@@ -39,10 +51,21 @@ public class Chargement {
         return null;
     }
 
+    /**
+     * Méthode de convenance pour des valeurs par défauts (chargement des données d'entraînement)
+     * @return Images
+     */
     public static Images chargerEtiquettes(Images stockage){
+        return chargerEtiquettes(stockage, false);
+    }
+
+    public static Images chargerEtiquettes(Images stockage, boolean loadTestFile){
         //début d'un bordel immense
         try {
-            DataInputStream dis = new DataInputStream(new FileInputStream("Ensemble_fichiers_MNIST-20231009/train-labels.idx1-ubyte"));
+            String filename;
+            if(loadTestFile) filename= "Ensemble_fichiers_MNIST-20231009/t10k-labels.idx1-ubyte";
+            else filename = "Ensemble_fichiers_MNIST-20231009/train-labels.idx1-ubyte";
+            DataInputStream dis = new DataInputStream(new FileInputStream(filename));
             int typeFichier = dis.readInt();
             if(typeFichier != 2049) throw new Exception("Pas bon ça");
             int nbEtiquettes = dis.readInt();
