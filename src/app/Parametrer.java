@@ -20,7 +20,7 @@ public class Parametrer {
 
     System.out.println("Nombre de couches : (disponible : etouxor (default), mnist)");
     Scanner sc = new Scanner(System.in);
-    String learning = "etouxor";
+    learning = "etouxor";
     in = sc.nextLine();
     if (!in.equals("")) {
       learning = in;

@@ -17,12 +17,13 @@ public class MainApp {
       parametrer.parametrerDefaut();
     }
     else {
-      parametrer.parametrer();
+      //parametrer.parametrer();
+      parametrer.parametrerDefaut();
     }
     MLP mlp = new MLP(parametrer.getNbNeurones(), parametrer.getTauxApprentissage(), parametrer.getFonctionActivation());
 
     //Selon le paramètre,
-    switch (parametrer.getLearning()){
+    switch (/*parametrer.getLearning()*/"mnist"){
       case "etouxor":
         //Tbales de vérité, exemple rapide d'entraînement
         final double[] ET = new double[]{0,0,0,1};
@@ -46,7 +47,7 @@ public class MainApp {
         break;
 
       case "mnist":
-        mnist(mlp);
+        mnist(new MLP(new int[]{256, 64, 32, 10}, 0.3, parametrer.getFonctionActivation()));
         break;
     }
 
@@ -60,6 +61,12 @@ public class MainApp {
     Images stockage = chargerImages();
     stockage = chargerEtiquettes(stockage);
 
+    //chargement dans une hashmap
+    //HashMap<Integer, int[][]> mnist = HashMap.newHashMap(10);
+    //for (int i = 0; i < 1000; i++) {
+    //
+    //}
+
     List<Imagette> imagettes = stockage.getImagettes();
     for (int i = 0; i < 1000; i++) {
       //convertir l'imagette en donnée d'entrainement
@@ -71,7 +78,8 @@ public class MainApp {
         }
       }
       //entraîner
-      System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, new double[]{stockage.getEtiquettes().get(1).getNombre()}));
+      if(i%100 == 99)
+      System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, new double[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
     }
 
 
