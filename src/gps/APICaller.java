@@ -8,31 +8,31 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
 
-public class APICaller extends Thread{
+public class APICaller extends Thread {
 
   private String url;
   private String data;
-  private HttpResponse response;
+  private HttpResponse<InputStream> response;
 
-  public APICaller(String url, String data){
+  public APICaller(String url, String data) {
     this.url = url;
     this.data = data;
   }
 
-  public void run(){
-    try{
+  public void run() {
+    try {
       HttpRequest request = HttpRequest.newBuilder()
-        .uri(new URI(url))
+              .uri(new URI(url))
               .method("GET", HttpRequest.BodyPublishers.ofString(data))
-              .header("Content-Type", "application/json").build();
-      response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-    }
-    catch(Exception e){
+              .header("Content-Type", "application/json")
+              .build();
+      response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofInputStream());
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
-  public HttpResponse getResponse(){
+  public HttpResponse<InputStream> getResponse() {
     return response;
   }
 }

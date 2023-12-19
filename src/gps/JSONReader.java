@@ -1,5 +1,11 @@
 package gps;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+
 public class JSONReader {
 
   public static String format(String json){
