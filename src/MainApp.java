@@ -1,4 +1,5 @@
 import MLP.MLP;
+import MNIST.Etiquette;
 import MNIST.Images;
 import MNIST.Imagette;
 import app.Parametrer;
@@ -59,6 +60,8 @@ public class MainApp {
     stockage = chargerEtiquettes(stockage);
 
     List<Imagette> imagettes = stockage.getImagettes();
+    List<Etiquette> etiquettes = stockage.getEtiquettes();
+
     for (int i = 0; i < 1000; i++) {
       //convertir l'imagette en donnée d'entrainement
       int[][] imagette = imagettes.get(i).getEntiers();
@@ -68,11 +71,13 @@ public class MainApp {
           imagetteDouble[imagette.length*j+k] = imagette[j][k];
         }
       }
+      //sélectionner l'étiquette et construire l'output correspondant
+      double[] output = new double[]{0,0,0,0,0,0,0,0,0,0};
+      output[etiquettes.get(i).getNombre()] = 1;
       //entraîner
-      double result = mlp.backPropagate(imagetteDouble, new double[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+      double result = mlp.backPropagate(imagetteDouble, output);
       if(i%100 == 99) System.out.println((i+1) + " : " + result);
     }
 
   }
-
 }
