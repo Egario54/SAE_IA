@@ -69,9 +69,10 @@ public class MainApp {
         }
       }
       //entraîner
-      if(i%100 == 99) System.out.println((i+1)+" : "+mlp.backPropagate(imagetteDouble, new double[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+      double result = mlp.backPropagate(imagetteDouble, new double[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+      if(i%100 == 99) System.out.println((i+1) + " : " + result);
     }
 
-
   }
+
 }
