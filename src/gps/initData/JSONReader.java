@@ -1,4 +1,4 @@
-package gps;
+package gps.initData;
 
 import java.io.IOException;
 import java.io.InputStream;

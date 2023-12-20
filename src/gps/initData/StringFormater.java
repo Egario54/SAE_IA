@@ -1,4 +1,4 @@
-package gps;
+package gps.initData;
 
 import java.net.http.HttpResponse;
 import java.util.List;

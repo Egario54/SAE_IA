@@ -1,57 +1,31 @@
 package gps;
 
-import java.io.BufferedInputStream;
+import gps.initData.DataHandler;
+import gps.initData.Ville;
+import gps.recherche.Solver;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    /*APICaller caller = new APICaller("https://api-adresse.data.gouv.fr/search/?q=nancy", "");
-    caller.start();
-    try {
-      caller.join();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }*/
-    //System.out.println(caller.getResponse());
-    //System.out.println(JSONReader.format(caller.getResponse().body().toString()));
-    //System.out.println(JSONReader.getField(caller.getResponse().body().toString(), "label"));
-    //System.out.println(Arrays.toString(StringFormater.removeChar(JSONReader.getField(caller.getResponse().body().toString(), "coordinates")).split(",")));
+    System.out.println("import des villes...");
+    List<Ville> villes50PlusPeuplees, villes50a100PlusPeuplees;
+    List<Ville>[] temp = DataHandler.initLists();
+    villes50PlusPeuplees = temp[0];
+    villes50a100PlusPeuplees = temp[1];
+    System.out.println("import terminé!");
+    System.out.println("recherche de l'itinéraire optimal...");
 
-    APICaller caller2 = new APICaller("https://geo.api.gouv.fr/communes?fields=nom,population", "");
-    caller2.start();
-    try {
-      caller2.join();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    //System.out.println(caller2.getResponse());
-    //System.out.println(caller2.getResponse().body().toString());
-    StringBuilder out = new StringBuilder();
-    InputStreamReader reader = new InputStreamReader(caller2.getResponse().body());
-    char[] buffer = new char[4096];
-    for (int rsz; (rsz = reader.read(buffer, 0, buffer.length)) > 0; ) {
-      out.append(buffer, 0, rsz);
-    }
-    String json = out.toString();
-    HashMap<String, Integer> map = HashMapMaker.makeHashMap(json.toString());
-    //System.out.println(map);
-    //System.out.println(map.keySet().size());
-    Map<String, Integer> map2 = HashMapMaker.getXPlusPopulation(map, 100);
-    //System.out.println(map2.toString().replace(", ", "\n").replace("{", "").replace("}", ""));
+    List<Ville> cities = DataHandler.mergeLists(villes50PlusPeuplees, villes50a100PlusPeuplees);
+    Solver.minPop130 = DataHandler.getLowestPop(villes50PlusPeuplees);
+    Solver.minPop110 = DataHandler.getLowestPop(villes50a100PlusPeuplees);
+    List<Ville> optimalDistance = Solver.findOptimalRouteDistance(cities, cities.get(cities.size()-1));
 
-    //Map<String, String> mapCoos = HashMapMaker.getcoords(map2);
+    System.out.println("Itinéraire optimal (distance) : " + optimalDistance);
+    System.out.println("Distance totale : " + Solver.calculateTotalDistance(optimalDistance));
 
-    System.out.println("");
-    Map<String, Integer> mapCoos50Premiers = HashMapMaker.getXPlusPopulation(map2, 50);
-    map2 = HashMapMaker.removeKey(map2, mapCoos50Premiers);
-    Map<String, Integer> mapCoos50Suivants = HashMapMaker.getXPlusPopulation(map2, 50);
-    //map2 = HashMapMaker.removeKey(map2, mapCoos50Suivants);
-    System.out.println(HashMapMaker.mergeLists(HashMapMaker.getDoubleCoos(HashMapMaker.getcoords(mapCoos50Premiers)), HashMapMaker.getDoubleCoos(HashMapMaker.getcoords(mapCoos50Suivants))));
+
   }
 }

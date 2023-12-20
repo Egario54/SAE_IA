@@ -1,13 +1,11 @@
-package gps;
+package gps.initData;
 
 import java.io.*;
 import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
-public class HashMapMaker {
+public class DataHandler {
   //n'arrêtez jamais d'hashmaper
 
   public static HashMap<String, Integer> makeHashMap(String s) {
@@ -22,43 +20,35 @@ public class HashMapMaker {
     return result;
   }
 
-  private static class Couple {
-    public String key;
-    public int value;
-
-    public Couple(String key, int value) {
-      this.key = key;
-      this.value = value;
-    }
-  }
+  private record ProtoVille(String nom,int population) {}
 
   public static Map<String, Integer> getXPlusPopulation(Map<String, Integer> map, int x) {
     //initialisation
-    Couple[] resultTab = new Couple[x];
+    ProtoVille[] resultTab = new ProtoVille[x];
     Object[] keys = map.keySet().toArray();
     String minName = (String) keys[0];
     int min = map.get(minName);
     int index = 0;
-    resultTab[0] = new Couple(minName, min);
+    resultTab[0] = new ProtoVille(minName, min);
     //remplissage du tableau avec les x premiers éléments
     for (int i = 1; i < x; i++) {
-      resultTab[i] = new Couple((String) keys[i], map.get((String) keys[i]));
+      resultTab[i] = new ProtoVille((String) keys[i], map.get((String) keys[i]));
       //stockage du min
-      if (resultTab[i].value < min) {
-        min = resultTab[i].value;
+      if (resultTab[i].population < min) {
+        min = resultTab[i].population;
         index = i;
       }
     }
     //parcours du reste de la map pour trouver les x plus grandes valeurs
     for (int i = x; i < keys.length; i++) {
       if (map.get((String) keys[i]) > min) {
-        resultTab[index] = new Couple((String) keys[i], map.get((String) keys[i]));
+        resultTab[index] = new ProtoVille((String) keys[i], map.get((String) keys[i]));
         //recherche du nouveau min
-        min = resultTab[0].value;
+        min = resultTab[0].population;
         index = 0;
         for (int j = 1; j < x; j++) {
-          if (resultTab[j].value < min) {
-            min = resultTab[j].value;
+          if (resultTab[j].population < min) {
+            min = resultTab[j].population;
             index = j;
           }
         }
@@ -67,7 +57,7 @@ public class HashMapMaker {
     //transfert du tableau dans la hashmap
     HashMap<String, Integer> result = new HashMap<String, Integer>();
     for (int i = 0; i < x; i++) {
-      result.put(resultTab[i].key, resultTab[i].value);
+      result.put(resultTab[i].nom, resultTab[i].population);
     }
     return result;
   }
@@ -106,7 +96,7 @@ public class HashMapMaker {
           }
           json = out.toString();
         }
-        coos = JSONReader.getField(json, "coordinates");
+        coos = map.get(key)+ "," + JSONReader.getField(json, "coordinates");
         result.put(key, StringFormater.invertCoords(StringFormater.keepNumbersAndPointsAndComma(coos)));
       } catch (Exception e) {
         e.printStackTrace();
@@ -119,7 +109,9 @@ public class HashMapMaker {
     List<Ville> result = new ArrayList<>();
     for (String key : map.keySet()) {
       String[] coos = map.get(key).split(",");
-      result.add(new Ville(key.replace("\"",""), Double.parseDouble(coos[0]), Double.parseDouble(coos[1])));
+      if(!(coos.length < 3))
+      result.add(new Ville(key.replace("\"",""), Double.parseDouble(coos[0]), Double.parseDouble(coos[1]), Integer.parseInt(coos[2])));
+      else System.out.println("coordonnées manquantes pour " + key);
     }
     return result;
   }
@@ -129,5 +121,37 @@ public class HashMapMaker {
     result.addAll(l1);
     result.addAll(l2);
     return result;
+  }
+
+  public static int getLowestPop(List<Ville> list) {
+    int result = list.get(0).population();
+    for (Ville ville : list) {
+      if (ville.population() < result) result = ville.population();
+    }
+    return result;
+  }
+  public static List<Ville>[] initLists() throws IOException {
+    APICaller caller2 = new APICaller("https://geo.api.gouv.fr/communes?fields=nom,population", "");
+    caller2.start();
+    try {
+      caller2.join();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    StringBuilder out = new StringBuilder();
+    InputStreamReader reader = new InputStreamReader(caller2.getResponse().body());
+    char[] buffer = new char[4096];
+    for (int rsz; (rsz = reader.read(buffer, 0, buffer.length)) > 0; ) {
+      out.append(buffer, 0, rsz);
+    }
+    String json = out.toString();
+    HashMap<String, Integer> map = makeHashMap(json.toString());
+    Map<String, Integer> map2 = getXPlusPopulation(map, 100);
+    Map<String, Integer> mapCoos50Premiers = getXPlusPopulation(map2, 50);
+    map2 = removeKey(map2, mapCoos50Premiers);
+    Map<String, Integer> mapCoos50Suivants = getXPlusPopulation(map2, 50);
+    List<Ville> villes50PlusPeuplees = getDoubleCoos(getcoords(mapCoos50Premiers));
+    List<Ville> villes50a100PlusPeuplees = getDoubleCoos(getcoords(mapCoos50Suivants));
+    return new List[]{villes50PlusPeuplees, villes50a100PlusPeuplees};
   }
 }
