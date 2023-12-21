@@ -55,7 +55,7 @@ public class ConnectFour extends Game {
 
     /**
     * {@inheritDoc}
-    * <p>retourne retourn la nouvelle grille après l'action</p>
+    * <p>retourne return la nouvelle grille après l'action</p>
      */
     public State doAction(State s, Action a){
         ConnectFourState new_s = (ConnectFourState) s.clone();
@@ -101,9 +101,4 @@ public class ConnectFour extends Game {
         return null; // faire plaisir a javac
     }
 
-    
-
-    
-
-    
 }

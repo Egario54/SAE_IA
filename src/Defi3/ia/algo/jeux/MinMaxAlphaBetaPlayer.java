@@ -5,25 +5,37 @@ import Defi3.ia.framework.common.ActionValuePair;
 import Defi3.ia.framework.jeux.Game;
 import Defi3.ia.framework.jeux.GameState;
 import Defi3.ia.framework.jeux.Player;
+import Defi3.ia.problemes.ConnectFour;
+import Defi3.ia.problemes.ConnectFourState;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class MinMaxAlphaBetaPlayer extends Player {
+
+
+    private int profondeur;
+    private final int maxProfondeur;
+
     /**
-     * Represente un joueur
+     * Represente un joueur AlphaBeta
      *
      * @param g          l'instance du jeu
      * @param player_one si joueur 1
      */
-
-    private int profondeur;
-    private final int maxProfondeur;
     public MinMaxAlphaBetaPlayer(Game g, boolean player_one) {
         super(g, player_one);
         this.maxProfondeur = 10;
     }
 
+    /**
+     * Represente un joueur AlphaBeta
+     *
+     * @param g          l'instance du jeu
+     * @param player_one si joueur 1
+     * @param profondeurMax optionnel
+     */
     public MinMaxAlphaBetaPlayer(Game g, boolean player_one, int profondeurMax) {
         super(g, player_one);
         this.maxProfondeur = profondeurMax;
@@ -43,6 +55,9 @@ public class MinMaxAlphaBetaPlayer extends Player {
     private ActionValuePair maxValue(GameState state, double alpha, double beta, int profondeur){
         if(game.endOfGame(state)){
             return new ActionValuePair(null, state.getGameValue());
+        }
+        if(profondeur==maxProfondeur){
+            if(game instanceof ConnectFour) return new ActionValuePair(null, (((ConnectFourState)state).evaluate(player)));
         }
         ActionValuePair avpMax = new ActionValuePair(null, Integer.MIN_VALUE);
 
@@ -70,6 +85,9 @@ public class MinMaxAlphaBetaPlayer extends Player {
     private ActionValuePair minValue(GameState state, double alpha, double beta, int profondeur){
         if(game.endOfGame(state)){
             return new ActionValuePair(null, state.getGameValue());
+        }
+        if(profondeur==maxProfondeur){
+            if(game instanceof ConnectFour) return new ActionValuePair(null, ((ConnectFourState)state).evaluate(player));
         }
 
         ActionValuePair avpMin = new ActionValuePair(null, Double.MAX_VALUE);

@@ -10,8 +10,11 @@ import Defi3.ia.framework.jeux.GameState;
 
 public class ConnectFourState extends GameState {
 
+    //joueur 2
     public static final int O = 'O';
+    //joueur 1
     public static final int X = 'X';
+    //...vide
     public static final int EMPTY = ' ';
 
     private int cols;
@@ -157,6 +160,59 @@ public class ConnectFourState extends GameState {
                 isAnyDiagComplete(player));
     }
 
+    /**
+     * Fonction d'évaluation
+     * @param player joueur qui joue (j'imagine)
+     * @return 0 si perdu, 1 si gagné, 0→0,5 si position perdante, 0,5→1 si position gagnante
+     */
+    public double evaluate(int player) {
+        //désigner la bonne évaluation de joueur (le joueur 1 est X, avec le nombre associé 0)
+        final int charEvalue;
+        if(player%2==0) charEvalue = X;
+        else charEvalue = O;
+
+        //évalue si une prochaine case est une victoire/défaite (cas case accessible directement)
+        for (int i = 0; i < cols; i++) {
+            if(isLegal(i)){
+                this.play(i);
+                if(game_value!=-1) {
+                    System.out.println("GAME_VALUE trouvée : " + game_value); //vérifier que ça ne déclenche pas de fin de partie ^^
+                    return game_value;
+                }
+            }
+        }
+
+        //évalue les suites de 2/3 pions
+        double eval = 0.5; //initialisation
+
+        /**
+         * Code non finalisé ci-dessous
+        //Evaluation positive
+        //2/3 sur une ligne
+        double plus = isThreeInRow();
+        if(plus!=0) isTwoInRow();
+        else isTwoInRow();
+        //2/3 sur une diagonale
+        plus = isThreeInDiag();
+        if(plus!=0) isTwoInDiag();
+        else isTwoInDiag();
+        //2 sur une colonne (nous ne récompenserons que peu les suites de 2 sur une colonne, stratégiquement peu viables)
+
+        //Evaluation négative : on sélectionne l'autre joueur
+        //2/3 sur une ligne
+        double moins = isThreeInRow();
+        if(moins!=0) isTwoInRow();
+        else isTwoInRow();
+        //2/3 sur une diagonale
+        moins = isThreeInDiag();
+        if(moins!=0) isTwoInDiag();
+        else isTwoInDiag();
+        //2 sur une colonne
+        isTwoInCol();
+         */
+        return eval;
+    }
+
 
     // l'API privé
 
@@ -212,7 +268,7 @@ public class ConnectFourState extends GameState {
     }
 
 
-    // verifier s'il y a pas une ligne vertical de faite
+    // verifier s'il y a pas une ligne verticale de faite
     private boolean isAnyColumnComplete(int player) {
 
         for(int c=0; c<cols; c++)
@@ -239,9 +295,91 @@ public class ConnectFourState extends GameState {
         return false;
     }
 
+    //L'API privée, mais c'est l'ajout des étudiants
+
+    //Evaluation des séries de 3 et 2
+
+    //Evaluation de isThreeInRow et isThreeInDiag : récompense forte
+    /**
+    private double isThreeInRow(int player){
+        for(int r=0; r<rows;r++)
+            for(int c=0; c<cols-3; c++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r][c+1] &&
+                        board[r][c] == board[r][c+2] )
+                    return ;
+        return 0;
+    }
+
+    //Evaluation de isThreeInCol inutile. Ce cas est traité dans evaluate.
+
+    private double isThreeInDiag(int player){
+        double res = 0;
+        for(int c=0; c<cols-3; c++)
+            for(int r=0; r<rows-3; r++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r+1][c+1] &&
+                        board[r][c] == board[r+2][c+2] &&
+                        board[r][c] == board[r+3][c+3] )
+                    res+=;
+
+        for(int c=3; c<cols; c++)
+            for(int r=0; r<rows-3; r++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r+1][c-1] &&
+                        board[r][c] == board[r+2][c-2] &&
+                        board[r][c] == board[r+3][c-3] )
+                    res+=;
+
+        return res;
+    }
+
+    //Evaluation de isTwoInRow et isTwoInDiag : récompense moyenne
+    private double isTwoInRow(int player){
+        for(int r=0; r<rows;r++)
+            for(int c=0; c<cols-3; c++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r][c+1] &&
+                        board[r][c] == board[r][c+2] )
+                    return ;
+        return 0;
+    }
+
+    //Evaluation de isTwoInCol : récompense faible
+    private double isTwoInCol(int player){
+        for(int c=0; c<cols; c++)
+            for(int r=0; r<rows-3; r++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r+1][c])
+                    return ;
+        return 0;
+    }
+
+    private double isTwoInDiag(int player){
+        double res = 0;
+        for(int c=0; c<cols-3; c++)
+            for(int r=0; r<rows-3; r++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r+1][c+1] &&
+                        board[r][c] == board[r+2][c+2] &&
+                        board[r][c] == board[r+3][c+3] )
+                    res+=;
+
+        for(int c=3; c<cols; c++)
+            for(int r=0; r<rows-3; r++)
+                if(board[r][c] == player &&
+                        board[r][c] == board[r+1][c-1] &&
+                        board[r][c] == board[r+2][c-2] &&
+                        board[r][c] == board[r+3][c-3] )
+                    res+=;
+
+        return res;
+    }
+     */
+
 
     /*
-     * non fonctional code bellow
+     * non-functional code below
      * Quick and dirty fix above
      * Need to recheck the bounds for next year
      *
@@ -334,6 +472,7 @@ public class ConnectFourState extends GameState {
 
         return false;
     }
+
 
 
 

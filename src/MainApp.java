@@ -45,7 +45,7 @@ public class MainApp {
         break;
 
       case "mnist":
-        mnist(new MLP(new int[]{256, 64, 32, 10}, 0.3, parametrer.getFonctionActivation()));
+        mnist(new MLP(new int[]{256, 64, 32, 10}, parametrer.getTauxApprentissage(), parametrer.getFonctionActivation()));
         break;
     }
 
@@ -78,6 +78,5 @@ public class MainApp {
       double result = mlp.backPropagate(imagetteDouble, output);
       if(i%100 == 99) System.out.println((i+1) + " : " + result);
     }
-
   }
 }
